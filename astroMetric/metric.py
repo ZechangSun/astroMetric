@@ -67,7 +67,7 @@ def biweight_scatter(delta, niter: Optional[int]=10, threshold: Optional[float]=
         d, u = delta[sigu], u[sigu]
         b = m + np.sum((d-m)*(1-u*u)*(1-u*u))/np.sum((1-u*u)*(1-u*u))
         s = np.sqrt(np.sum(N*(d-m)*(d-m)*(1-u*u)**4))/np.abs((1-u*u)*(1-5*u*u))
-        m, u = _cal_params(delta, b, c=c)
+        m, u = _cal_params(delta, m=b, c=c)
         if np.abs(s-s0)/s < threshold:
             return b, s
     return b, s
@@ -83,7 +83,7 @@ def outlier_rate(delta: np.ndarray, threshold=0.15)->float:
     """
     Ntotal = delta.shape[0]
     Noutlier = np.sum(np.abs(delta)>threshold)
-    return Ntotal/Noutlier
+    return Noutlier/Ntotal
 
 
 def biweight_outlier_rate(delta: np.ndarray, nsigma: Optional[float]=2., niter: Optional[int]=10, threshold: Optional[float]=1e-3, c: Optional[float]=9.)->float:
